@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+require('dotenv').config();
 
 const CELLO_URL = 'https://cellopark.co.il/login/';
 
@@ -23,11 +24,11 @@ const goToActiveParkingPage = async(browser) => {
         await page.goto(CELLO_URL, { waitUntil: 'networkidle0' }); // wait until page load
 
         await page.waitForSelector('#username');
-        await page.type('#username', '0507880485');
+        await page.type('#username', process.env.CELLO_USERNAME);
         console.log('Username was typed...');
 
         await page.waitForSelector('#password');
-        await page.type('#password', 'hTVZYe8oF4');
+        await page.type('#password', process.env.PASSWORD);
         console.log('Password was typed...');
 
         await page.waitForSelector('[type=submit]');
