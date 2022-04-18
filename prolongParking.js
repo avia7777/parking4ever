@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 require('dotenv').config();
+const sendSMS = require('./smsSender').sendSMS;
 
 const CELLO_URL = 'https://cellopark.co.il/login/';
 
@@ -40,13 +41,12 @@ const goToActiveParkingPage = async(browser) => {
     } catch (err) {
         console.log("Could not get to 'activeParking' page => : ", err);
         await browser.close();
-        // await sendSMS(`Could not get to 'activeParking' page`);
+        sendSMS(`Could not get to 'activeParking' page`);
         return;
     }
 }
 
 const clickProlongParking = async(page) => {
-    console.log("Inside click last");
     if (!page) { return; }
 
     let prolongationStatus;
@@ -65,11 +65,11 @@ const clickProlongParking = async(page) => {
         prolongationStatus = false;
     }
     if (prolongationStatus) {
-        // sendSMS('The parking prolonged!');
+        sendSMS('The parking prolonged!');
     }
 }
 
-const prolongParking = async () => {
+const main = async () => {
     const browser = await startBrowser();
     const page = await goToActiveParkingPage(browser);
     await clickProlongParking(page);
@@ -77,4 +77,4 @@ const prolongParking = async () => {
     if (browser) { await browser.close(); }
 }
 
-prolongParking();
+main();
