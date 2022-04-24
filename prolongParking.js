@@ -58,6 +58,8 @@ const clickProlongParking = async(page) => {
         console.log('Prolonging the parking..');
         await page.waitForSelector('#bot1-Msg1');
         await page.click('#bot1-Msg1');
+        console.log('Parking had prolonged!');
+        await page.waitForTimeout(2000);
         prolongationStatus = true;
         
     } catch (err) {
