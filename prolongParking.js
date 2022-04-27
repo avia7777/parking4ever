@@ -29,7 +29,7 @@ const goToActiveParkingPage = async(browser) => {
         console.log('Username was typed...');
 
         await page.waitForSelector('#password');
-        await page.type('#password', process.env.PASSWORD);
+        await page.type('#password', process.env.CELLO_PASSWORD);
         console.log('Password was typed...');
 
         await page.waitForSelector('[type=submit]');
