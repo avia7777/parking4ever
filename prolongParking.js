@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-require('dotenv').config();
+require('dotenv').config({path: __dirname + "/.env"});
 const sendSMS = require('./smsSender').sendSMS;
 
 const CELLO_URL = 'https://cellopark.co.il/login/';
@@ -8,8 +8,8 @@ const startBrowser = async() => {
     let browser;
     try {
         console.log("Opening the browser......");
-        // browser = await puppeteer.launch({headless: false});
-        browser = await puppeteer.launch();
+        browser = await puppeteer.launch({headless: false});
+        // browser = await puppeteer.launch();
     } catch (err) {
         console.log("Could not create a browser instance => : ", err);
     }
@@ -58,7 +58,7 @@ const clickProlongParking = async(page) => {
         console.log('Prolonging the parking..');
         await page.waitForSelector('#bot1-Msg1');
         await page.click('#bot1-Msg1');
-        console.log('Parking had prolonged!');
+        console.log('Parking was extended!');
         await page.waitForTimeout(2000);
         prolongationStatus = true;
         
@@ -67,11 +67,11 @@ const clickProlongParking = async(page) => {
         prolongationStatus = false;
     }
     if (prolongationStatus) {
-        sendSMS('The parking prolonged!');
+        sendSMS('We extended your parking!');
     }
 }
 
-const main = async () => {
+const prolongParking = async () => {
     const browser = await startBrowser();
     const page = await goToActiveParkingPage(browser);
     await clickProlongParking(page);
@@ -79,4 +79,5 @@ const main = async () => {
     if (browser) { await browser.close(); }
 }
 
-main();
+module.exports = prolongParking;
+
